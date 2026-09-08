@@ -1,3 +1,4 @@
+<BrowserRouter basename="/Egyptian-House-Price-Predictor-Project"></BrowserRouter>
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import './App.css';
@@ -299,3 +300,4 @@ function App() {
 }
 
 export default App;
+</BrowserRouter>
