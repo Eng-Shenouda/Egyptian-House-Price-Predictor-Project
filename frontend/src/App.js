@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
 import './App.css';
 
 const dictionary = {
@@ -43,6 +42,7 @@ const dictionary = {
 };
 
 const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
+
 const translateText = (text, targetLang) => {
   if (!text) return text;
   if (targetLang === 'en') return text;
@@ -116,23 +116,20 @@ function App() {
 
   const t = content[lang];
 
-useEffect(() => {
+  useEffect(() => {
     fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
         console.log("API Success Data:", data);
-        
-        // جلب المدن بطريقة مباشرة ومضمونة
         const locs = data.locations || data.data?.locations || [];
         setLocations(locs);
 
-        // جلب الأنواع بطريقة مباشرة ومضمونة
         const typesList = data.property_types || data.types || data.data?.property_types || [];
         setTypes(typesList);
       })
       .catch((err) => {
         console.error("API Fetch Error:", err);
-        alert("Fetch Error: " + err.message); // عشان لو حصل خطأ يظهر لك رسالة على الموبايل فوراً
+        alert("Fetch Error: " + err.message);
       });
   }, []);
 
@@ -175,22 +172,6 @@ useEffect(() => {
     setFormData((prev) => ({ ...prev, [field]: cleanVal }));
   };
 
- // تحويل آمن للمدن مع دعم الترجمة
-  const locationOptions = Array.isArray(locations) 
-    ? locations.map((loc) => ({ 
-        value: loc, 
-        label: typeof translateText === 'function' ? translateText(loc, lang) : loc 
-      })) 
-    : [];
-// eslint-disable-next-line no-unused-vars
-  // تحويل آمن لأنواع العقارات مع دعم الترجمة
-  const typeOptions = Array.isArray(types) 
-    ? types.map((typ) => ({ 
-        value: typ, 
-        label: typeof translateText === 'function' ? translateText(typ, lang) : typ 
-      })) 
-    : [];
-
   const meterPrice = result ? Math.round(result / (Number(formData.size) || 1)) : 0;
 
   return (
@@ -211,38 +192,40 @@ useEffect(() => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-  <label>🏢 {t.typeLabel}</label>
-  <select
-    className="form-control"
-    value={formData.type}
-    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-    style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
-  >
-    <option value="">{lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...'}</option>
-    {Array.isArray(types) && types.map((typ, idx) => (
-      <option key={idx} value={typ}>
-        {typeof translateText === 'function' ? translateText(typ, lang) : typ}
-      </option>
-    ))}
-  </select>
-</div>
+            <label>🏢 {t.typeLabel}</label>
+            <select
+              className="form-control"
+              value={formData.type}
+              onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+              style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+              required
+            >
+              <option value="">{lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...'}</option>
+              {Array.isArray(types) && types.map((typ, idx) => (
+                <option key={idx} value={typ}>
+                  {typeof translateText === 'function' ? translateText(typ, lang) : typ}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="input-group">
-  <label>📍 {t.locationLabel || 'المنطقة'}</label>
-  <select
-    className="form-control"
-    value={formData.location}
-    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-    style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
-  >
-    <option value="">{lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}</option>
-    {Array.isArray(locations) && locations.map((loc, idx) => (
-      <option key={idx} value={loc}>
-        {typeof translateText === 'function' ? translateText(loc, lang) : loc}
-      </option>
-    ))}
-  </select>
-</div>
+            <label>📍 {t.locationLabel || 'المنطقة'}</label>
+            <select
+              className="form-control"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+              required
+            >
+              <option value="">{lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}</option>
+              {Array.isArray(locations) && locations.map((loc, idx) => (
+                <option key={idx} value={loc}>
+                  {typeof translateText === 'function' ? translateText(loc, lang) : loc}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="grid-3">
             <div className="input-group">
@@ -293,7 +276,6 @@ useEffect(() => {
           </button>
         </form>
 
-        {/* سطر التتبع لمعرفة حالة جلب البيانات على الموبايل */}
         <div style={{ color: 'red', fontSize: '13px', marginTop: '15px', textAlign: 'center', background: '#ffeeee', padding: '5px', borderRadius: '5px' }}>
           Debug: Locations = {locations.length} | Types = {types.length}
         </div>
