@@ -172,15 +172,21 @@ useEffect(() => {
     setFormData((prev) => ({ ...prev, [field]: cleanVal }));
   };
 
-  const locationOptions = locations.map((loc) => ({
-    value: loc,
-    label: translateText(loc, lang)
-  }));
+ // تحويل آمن للمدن مع دعم الترجمة
+  const locationOptions = Array.isArray(locations) 
+    ? locations.map((loc) => ({ 
+        value: loc, 
+        label: typeof translateText === 'function' ? translateText(loc, lang) : loc 
+      })) 
+    : [];
 
-  const typeOptions = types.map((typ) => ({
-    value: typ,
-    label: translateText(typ, lang)
-  }));
+  // تحويل آمن لأنواع العقارات مع دعم الترجمة
+  const typeOptions = Array.isArray(types) 
+    ? types.map((typ) => ({ 
+        value: typ, 
+        label: typeof translateText === 'function' ? translateText(typ, lang) : typ 
+      })) 
+    : [];
 
   const meterPrice = result ? Math.round(result / (Number(formData.size) || 1)) : 0;
 
@@ -215,14 +221,16 @@ useEffect(() => {
 
           <div className="input-group">
             <label>🏢 {t.typeLabel}</label>
-            <Select
-              className="react-select-container"
-              classNamePrefix="react-select"
-              options={typeOptions}
-              value={typeOptions.find((opt) => opt.value === formData.type)}
-              onChange={(selected) => setFormData({ ...formData, type: selected.value })}
-              isSearchable={false}
-            />
+           <Select
+  className="react-select-container"
+  classNamePrefix="react-select"
+  options={locationOptions}
+  value={locationOptions.find((opt) => opt.value === formData.location)}
+  onChange={(selected) => setFormData({ ...formData, location: selected ? selected.value : '' })}
+  menuPortalTarget={document.body}
+  styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+  placeholder={lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}
+/>
           </div>
 
           <div className="grid-3">
