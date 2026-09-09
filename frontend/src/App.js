@@ -117,20 +117,23 @@ function App() {
   const t = content[lang];
 
 useEffect(() => {
-    fetch(`${API_BASE_URL}/options`)
+    fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
-        console.log("Raw API Data:", data); // بص في الـ Console لو حابب
+        console.log("API Success Data:", data);
         
-        // استخراج المدن بأي شكل ممكن (سواء مصفوفة مباشرة أو جوه مفتاح)
+        // جلب المدن بطريقة مباشرة ومضمونة
         const locs = data.locations || data.data?.locations || [];
-        setLocations(Array.isArray(locs) ? locs : []);
+        setLocations(locs);
 
-        // استخراج أنواع العقارات بأي مفتاح محتمل
+        // جلب الأنواع بطريقة مباشرة ومضمونة
         const typesList = data.property_types || data.types || data.data?.property_types || [];
-        setTypes(Array.isArray(typesList) ? typesList : []);
+        setTypes(typesList);
       })
-      .catch((err) => console.error("Error fetching options:", err));
+      .catch((err) => {
+        console.error("API Fetch Error:", err);
+        alert("Fetch Error: " + err.message); // عشان لو حصل خطأ يظهر لك رسالة على الموبايل فوراً
+      });
   }, []);
 
   const handleSubmit = async (e) => {
