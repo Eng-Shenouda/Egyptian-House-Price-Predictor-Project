@@ -16,99 +16,86 @@ html, body {
 .app-container {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+  background: linear-gradient(rgba(11, 17, 32, 0.85), rgba(11, 17, 32, 0.94)),
               url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920') no-repeat center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
 }
 
 .lang-toggle {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  top: 25px;
+  right: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
-  padding: 6px 16px;
-  border-radius: 20px;
+  padding: 8px 20px;
+  border-radius: 30px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
   z-index: 10;
+  transition: all 0.25s ease;
 }
 
 .lang-toggle:hover {
   background: #38bdf8;
-  color: #000;
+  color: #0f172a;
+  border-color: #38bdf8;
 }
 
-.glass-card {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.web-glass-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 22px 28px;
+  border-radius: 24px;
+  padding: 30px 40px;
   width: 100%;
-  max-width: 520px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  max-width: 860px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
   color: #fff;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-/* ========================================= */
-/* شارة اسم الشركة أعلى الكارت */
-/* ========================================= */
 .company-badge {
   display: inline-block;
   background: rgba(56, 189, 248, 0.12);
   border: 1px solid rgba(56, 189, 248, 0.3);
   color: #38bdf8;
-  padding: 4px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
 }
 
-/* ========================================= */
-/* تثبيت إظهار أيقونة العنوان نهائياً */
-/* ========================================= */
 .header h1 {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-}
-
-.header h1 .title-icon {
-  display: inline-block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  -webkit-text-fill-color: initial !important;
-  background: none !important;
-  font-style: normal !important;
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 4px;
 }
 
 .header p {
   font-size: 12px;
   color: #94a3b8;
-  margin-top: 2px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .input-group {
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .input-group label {
@@ -119,32 +106,58 @@ html, body {
   color: #e2e8f0;
 }
 
-.grid-3 {
+/* تقسيم الشبكة إلى عمودين في الصف الأول وثلاثة أعمدة في الصف الثاني */
+.form-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px 16px;
+  margin-bottom: 16px;
 }
 
-/* ========================================= */
-/* تصميم أزرار الزيادة والنقصان المستقلة */
-/* ========================================= */
+/* الصف الأول: نوع العقار والمنطقة (كل واحد يأخذ 3 أعمدة من أصل 6 = 50%) */
+.form-grid .input-group:nth-child(1),
+.form-grid .input-group:nth-child(2) {
+  grid-column: span 3;
+}
+
+/* الصف الثاني: المساحة، الغرف، الحمامات (كل واحد يأخذ عمودين من أصل 6 = 33.3% يعني 3 جنب بعض) */
+.form-grid .input-group:nth-child(3),
+.form-grid .input-group:nth-child(4),
+.form-grid .input-group:nth-child(5) {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid .input-group:nth-child(1),
+  .form-grid .input-group:nth-child(2),
+  .form-grid .input-group:nth-child(3),
+  .form-grid .input-group:nth-child(4),
+  .form-grid .input-group:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
 .stepper-input {
-  background: rgba(30, 41, 59, 0.7);
+  background: rgba(30, 41, 59, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  height: 42px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px;    /* مسافة 4px من الحاوية */
-  gap: 4px;        /* مسافة 4px بين المربعات */
+  padding: 4px;
+  gap: 6px;
   box-sizing: border-box;
   overflow: hidden;
+  width: 100%;
 }
 
 .stepper-input:focus-within {
   border-color: #38bdf8;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
 }
 
 .stepper-input input {
@@ -154,18 +167,13 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: #ffffff !important;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   text-align: center;
   outline: none;
   min-width: 0;
-  box-sizing: border-box;
-  
-  /* الضبط الدقيق لمحاذاة النص والارتفاع */
-  line-height: 32px;  /* يسنتر الرقم رأسيًا تمامًا */
-  padding: 0 !important; /* يمنع إخفاء النص */
+  padding: 0;
   margin: 0;
-  display: block;
 }
 
 .stepper-input button {
@@ -175,7 +183,7 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #e2e8f0;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -184,7 +192,6 @@ html, body {
   transition: all 0.2s ease;
   user-select: none;
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
 .stepper-input button:hover {
@@ -193,124 +200,145 @@ html, body {
   border-color: #38bdf8;
 }
 
-.stepper-input button:active {
-  transform: scale(0.95);
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+  user-select: none;
 }
 
-/* ========================================= */
-/* إصلاحات React-Select */
-/* ========================================= */
-.react-select-container .react-select__control {
-  background: rgba(30, 41, 59, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 10px !important;
-  height: 42px !important;
-  min-height: 42px !important;
-  box-shadow: none !important;
-  display: flex !important;
-  align-items: center !important;
+.custom-select-trigger {
+  background: rgba(30, 41, 59, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  height: 44px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
 }
 
-.react-select-container .react-select__value-container {
-  padding: 0 12px !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important; /* سنترة النص راسيًا مع السهم */
-  overflow: visible !important;
+.custom-select-trigger:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: #38bdf8;
 }
 
-.react-select-container .react-select__single-value,
-.react-select-container .react-select__placeholder {
-  color: #fff !important;
-  font-weight: 700 !important;
-  font-size: 13px !important;
-  margin: 0 !important; /* إزالة أي مارجن رأسي تسبب في اختفائه */
-  padding: 0 !important;
-  position: static !important; /* إلغاء التموضع المطلق الافتراضي */
-  transform: none !important;
-  line-height: 42px !important; /* إعطاء ارتفاع سطر يطابق ارتفاع الحاوية */
+.custom-select-trigger.open {
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
 }
 
-.react-select-container .react-select__input-container {
-  margin: 0 !important;
-  padding: 0 !important;
+.custom-select-trigger .arrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.react-select-container .react-select__indicators {
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
+.custom-select-trigger.open .arrow {
+  transform: rotate(180deg);
+  color: #38bdf8;
 }
 
-.react-select-container .react-select__indicator-separator {
-  display: none !important;
+.custom-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.react-select-container .react-select__dropdown-indicator {
-  color: rgba(255, 255, 255, 0.7) !important;
-  padding: 0 10px !important;
+.custom-option {
+  padding: 10px 14px;
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.react-select-container .react-select__menu {
-  background: #0f172a !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 10px !important;
-  z-index: 20 !important;
+.custom-option:last-child {
+  border-bottom: none;
 }
 
-.react-select-container .react-select__option {
-  color: #cbd5e1 !important;
-  font-size: 13px !important;
+.custom-option:hover {
+  background: #1e293b;
+  color: #38bdf8;
 }
 
-.react-select-container .react-select__option--is-focused {
-  background: #1e293b !important;
-  color: #38bdf8 !important;
+.custom-option.selected {
+  background: #1e293b;
+  color: #38bdf8;
+  font-weight: 800;
 }
-
-/* ========================================= */
 
 .submit-btn {
   width: 100%;
-  height: 42px;
+  height: 46px;
   background: linear-gradient(135deg, #0284c7, #2563eb);
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #fff;
   font-size: 15px;
   font-weight: 800;
   cursor: pointer;
-  margin-top: 8px;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  margin-top: 2px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
 }
 
-.price-box {
-  margin-top: 15px;
-  background: rgba(30, 41, 59, 0.9);
+.submit-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.price-box-web {
+  margin-top: 14px;
+  background: rgba(30, 41, 59, 0.92);
   border-radius: 12px;
   padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  animation: fadeIn 0.3s ease-in-out;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .price-main span {
   font-size: 11px;
   color: #94a3b8;
   display: block;
+  margin-bottom: 2px;
 }
 
 .price-main h2 {
-  font-size: 20px;
+  font-size: 19px;
   color: #4ade80;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .price-main small {
-  font-size: 13px;
+  font-size: 11px;
   color: #fff;
+  font-weight: 700;
+}
+
+.price-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 15px;
 }
 
 .price-sub {
@@ -319,7 +347,9 @@ html, body {
   color: #cbd5e1;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+.price-sub strong {
+  display: block;
+  font-size: 12px;
+  color: #38bdf8;
+  margin-top: 2px;
 }
