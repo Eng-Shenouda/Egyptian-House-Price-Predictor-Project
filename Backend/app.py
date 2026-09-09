@@ -4,6 +4,7 @@ import joblib
 import pandas as pd
 
 app = Flask(__name__)
+app.json.ensure_ascii = False  # <--- السطر السحري ده بيخلي العربي يرجع كحروف عربية واضحة
 CORS(app)
 
 model = joblib.load('model.pkl')
