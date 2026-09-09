@@ -117,24 +117,20 @@ function App() {
 
   const t = content[lang];
 
-  useEffect(() => {
-  console.log("Fetching from:", API_BASE_URL);
-  fetch(`${API_BASE_URL}/options`)
-    .then(res => {
-      console.log("Response status:", res.status);
-      return res.json();
-    })
-    .then(data => {
-      console.log("Data received:", data);
-      if (data && data.locations) {
-        setLocations(data.locations);
-      }
-      if (data && data.property_types) {
-        setPropertyTypes(data.property_types);
-      }
-    })
-    .catch(err => console.error("Error fetching options:", err));
-}, []);
+ useEffect(() => {
+    fetch(`${API_BASE_URL}/options`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.locations) {
+          setLocations(data.locations);
+        }
+        if (data && data.property_types) {
+          // لو اسم الحالة عندك مختلف، غير السطر ده بالاسم الصح المكتوب عندك فوق في الـ useState
+          setPropertyTypes(data.property_types); 
+        }
+      })
+      .catch((err) => console.error("Error fetching options:", err));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
