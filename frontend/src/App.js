@@ -117,14 +117,13 @@ function App() {
   const t = content[lang];
 
   useEffect(() => {
-    // داتا احتياطية أساسية تظهر فوري لو السيرفر اتاخر على الموبايل
-    const fallbackLocations = ["القاهرة", "الجيزة", "الإسكندرية", "6 أكتوبر", "الشيخ زايد", "التجمع الخامس", "القاهرة الجديدة", "الساحل الشمالي", "مدينة نصر", "المعادي"];
+    // داتا احتياطية فورية للموبايل لضمان عدم بقاء القوائم فارغة أبداً
+    const fallbackLocations = ["القاهرة", "الجيزة", "الإسكندرية", "6 أكتوبر", "الشيخ زايد", "القاهرة الجديدة", "الساحل الشمالي", "مدينة نصر", "المعادي"];
     const fallbackTypes = ["شقة سكنية", "فيلا مستقلة", "دوبلكس", "تاون هاوس", "توين هاوس", "بنتهاوس", "استوديو", "شاليه"];
 
     setLocations(fallbackLocations);
     setTypes(fallbackTypes);
 
-    // محاولة جلب الداتا الحية من السيرفر في الخلفية
     fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
@@ -135,7 +134,7 @@ function App() {
         if (typesList && typesList.length > 0) setTypes(typesList);
       })
       .catch((err) => {
-        console.log("Using fallback data due to network error:", err);
+        console.log("Using fallback data:", err);
       });
   }, []);
 
@@ -197,13 +196,28 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit}>
+          
+          {/* نوع العقار */}
           <div className="input-group">
             <label>🏢 {t.typeLabel}</label>
             <select
               className="form-control"
               value={formData.type}
               onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+              style={{ 
+                width: '100%', 
+                padding: '15px', 
+                fontSize: '18px', 
+                borderRadius: '10px', 
+                background: '#ffffff', 
+                color: '#000000', 
+                border: '2px solid #007bff',
+                appearance: 'auto',
+                WebkitAppearance: 'auto',
+                display: 'block',
+                zIndex: 9999,
+                position: 'relative'
+              }}
               required
             >
               <option value="">{lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...'}</option>
@@ -215,13 +229,27 @@ function App() {
             </select>
           </div>
 
+          {/* المنطقة */}
           <div className="input-group">
             <label>📍 {t.locationLabel || 'المنطقة'}</label>
             <select
               className="form-control"
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+              style={{ 
+                width: '100%', 
+                padding: '15px', 
+                fontSize: '18px', 
+                borderRadius: '10px', 
+                background: '#ffffff', 
+                color: '#000000', 
+                border: '2px solid #007bff',
+                appearance: 'auto',
+                WebkitAppearance: 'auto',
+                display: 'block',
+                zIndex: 9999,
+                position: 'relative'
+              }}
               required
             >
               <option value="">{lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}</option>
@@ -281,10 +309,6 @@ function App() {
             {loading ? t.btnLoading : `✨ ${t.btnCalculate}`}
           </button>
         </form>
-
-        <div style={{ color: 'red', fontSize: '13px', marginTop: '15px', textAlign: 'center', background: '#ffeeee', padding: '5px', borderRadius: '5px' }}>
-          Debug: Locations = {locations.length} | Types = {types.length}
-        </div>
 
         {result !== null && (
           <div className="price-box">
