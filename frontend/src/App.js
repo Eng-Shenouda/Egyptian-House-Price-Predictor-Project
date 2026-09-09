@@ -212,29 +212,37 @@ useEffect(() => {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
   <label>🏢 {t.typeLabel}</label>
-  <Select
-    className="react-select-container"
-    classNamePrefix="react-select"
-    options={typeOptions}
-    value={typeOptions.find((opt) => opt.value === formData.type)}
-    onChange={(selected) => setFormData({ ...formData, type: selected ? selected.value : '' })}
-    isSearchable={false}
-  />
+  <select
+    className="form-control"
+    value={formData.type}
+    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+    style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+  >
+    <option value="">{lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...'}</option>
+    {Array.isArray(types) && types.map((typ, idx) => (
+      <option key={idx} value={typ}>
+        {typeof translateText === 'function' ? translateText(typ, lang) : typ}
+      </option>
+    ))}
+  </select>
 </div>
 
           <div className="input-group">
-            <label>🏢 {t.typeLabel}</label>
-           <Select
-  className="react-select-container"
-  classNamePrefix="react-select"
-  options={locationOptions}
-  value={locationOptions.find((opt) => opt.value === formData.location)}
-  onChange={(selected) => setFormData({ ...formData, location: selected ? selected.value : '' })}
-  menuPortalTarget={document.body}
-  styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-  placeholder={lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}
-/>
-          </div>
+  <label>📍 {t.locationLabel || 'المنطقة'}</label>
+  <select
+    className="form-control"
+    value={formData.location}
+    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+    style={{ width: '100%', padding: '10px', fontSize: '16px', borderRadius: '8px', background: '#fff', color: '#000' }}
+  >
+    <option value="">{lang === 'ar' ? 'اختر المنطقة...' : 'Select location...'}</option>
+    {Array.isArray(locations) && locations.map((loc, idx) => (
+      <option key={idx} value={loc}>
+        {typeof translateText === 'function' ? translateText(loc, lang) : loc}
+      </option>
+    ))}
+  </select>
+</div>
 
           <div className="grid-3">
             <div className="input-group">
