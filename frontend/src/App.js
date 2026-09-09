@@ -42,6 +42,8 @@ const dictionary = {
   "store": "محل تجاري"
 };
 
+const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
+
 const translateText = (text, targetLang) => {
   if (!text) return text;
   if (targetLang === 'en') return text;
@@ -116,7 +118,7 @@ function App() {
   const t = content[lang];
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/options')
+    fetch(`${API_BASE_URL}/options`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 'success') {
@@ -134,7 +136,7 @@ function App() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:5000/predict', {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
