@@ -208,16 +208,16 @@ useEffect(() => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>📍 {t.locationLabel}</label>
-            <Select
-              className="react-select-container"
-              classNamePrefix="react-select"
-              options={locationOptions}
-              value={locationOptions.find((opt) => opt.value === formData.location)}
-              onChange={(selected) => setFormData({ ...formData, location: selected.value })}
-              isSearchable={false}
-            />
-          </div>
+  <label>🏢 {t.typeLabel}</label>
+  <Select
+    className="react-select-container"
+    classNamePrefix="react-select"
+    options={typeOptions}
+    value={typeOptions.find((opt) => opt.value === formData.type)}
+    onChange={(selected) => setFormData({ ...formData, type: selected ? selected.value : '' })}
+    isSearchable={false}
+  />
+</div>
 
           <div className="input-group">
             <label>🏢 {t.typeLabel}</label>
