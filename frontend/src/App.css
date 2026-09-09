@@ -27,7 +27,7 @@ html, body {
   overflow: hidden;
 }
 
-/* زرار اللغة: متوازن من فوق ومن تحت، وجوه حدود الكارد بالضبط للموبايل */
+/* زرار اللغة: محصور جوه نفس عرض الكارد الرئيسية بالمللي ومتوسط في النص */
 .lang-toggle {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
@@ -41,9 +41,9 @@ html, body {
   font-size: 13px;
   z-index: 10;
   transition: all 0.25s ease;
-  margin-bottom: 14px; /* مسافة متوازنة بينه وبين الحاوية الكبيرة من الأسفل */
+  margin-bottom: 12px;
   width: 100%;
-  max-width: 860px; /* نفس عرض الكارد الرئيسية بالظبط */
+  max-width: 860px; /* نفس عرض الكارد تماماً */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,7 +70,7 @@ html, body {
   overflow-y: auto;
 }
 
-/* تخصيص السكرول بار عشان يكون هادئ جوه الكارد لو الشاشة صغيرة */
+/* تخصيص السكرول بار */
 .web-glass-card::-webkit-scrollbar {
   width: 4px;
 }
@@ -123,7 +123,7 @@ html, body {
   color: #e2e8f0;
 }
 
-/* تقسيم الشبكة: عمودين للصف الأول، وثلاثة أعمدة للصف الثاني */
+/* تقسيم الشبكة للشاشات الكبيرة */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -131,13 +131,11 @@ html, body {
   margin-bottom: 12px;
 }
 
-/* الصف الأول: نوع العقار والمنطقة (كل واحد 3 أعمدة = 50%) */
 .form-grid .input-group:nth-child(1),
 .form-grid .input-group:nth-child(2) {
   grid-column: span 3;
 }
 
-/* الصف الثاني: المساحة، الغرف، الحمامات (كل واحد عمودين = 3 جنب بعض) */
 .form-grid .input-group:nth-child(3),
 .form-grid .input-group:nth-child(4),
 .form-grid .input-group:nth-child(5) {
