@@ -43,7 +43,6 @@ const dictionary = {
 };
 
 const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
-
 const translateText = (text, targetLang) => {
   if (!text) return text;
   if (targetLang === 'en') return text;
@@ -121,6 +120,7 @@ useEffect(() => {
     fetch(`${API_BASE_URL}/options`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("Fetched data:", data); // <--- زود السطر ده
         if (data && data.locations) {
           setLocations(data.locations);
         }
@@ -128,7 +128,10 @@ useEffect(() => {
           setTypes(data.property_types); 
         }
       })
-      .catch((err) => console.error("Error fetching options:", err));
+      .catch((err) => {
+        console.error("Error fetching options:", err);
+        alert("API Error: " + err.message); // <--- عشان يجيبها لك رسالة واضحة على الموبايل لو فيه مشكلة اتصال
+      });
   }, []);
 
   const handleSubmit = async (e) => {
