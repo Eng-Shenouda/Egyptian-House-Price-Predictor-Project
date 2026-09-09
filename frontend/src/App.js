@@ -38,7 +38,9 @@ const dictionary = {
   "chalet": "شاليه",
   "clinic": "عيادة",
   "office": "مكتب إداري",
-  "store": "محل تجاري"
+  "store": "محل تجاري",
+  "10th of ramadan": "العاشر من رمضان",
+  "administrative office": "مكتب إداري"
 };
 
 const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
@@ -62,8 +64,20 @@ const formatNumber = (num, currentLang) => {
 };
 
 function App() {
-  const [locations, setLocations] = useState([]);
-  const [types, setTypes] = useState([]);
+  // وضع قائمة افتراضية جاهزة فوراً لضمان ظهور البيانات على الموبايل
+  const defaultLocations = [
+    "New Cairo", "Sheikh Zayed", "6th of October", "Nasr City", "Maadi", 
+    "Heliopolis", "Alexandria", "North Coast", "Shorouk", "Madinaty", 
+    "Rehab", "Zamalek", "Dokki", "Mohandessin", "10th of Ramadan"
+  ];
+
+  const defaultTypes = [
+    "Apartment", "Villa", "Duplex", "Townhouse", "Twin House", 
+    "Penthouse", "Studio", "Chalet", "Clinic", "Administrative Office"
+  ];
+
+  const [locations, setLocations] = useState(defaultLocations);
+  const [types, setTypes] = useState(defaultTypes);
   const [lang, setLang] = useState('ar');
   
   const [formData, setFormData] = useState({
@@ -117,17 +131,9 @@ function App() {
   const t = content[lang];
 
   useEffect(() => {
-    // داتا احتياطية فورية تظهر لو السيرفر اتاخر
-    const fallbackLocations = ["القاهرة", "الجيزة", "الإسكندرية", "6 أكتوبر", "الشيخ زايد", "القاهرة الجديدة", "الساحل الشمالي", "مدينة نصر", "المعادي"];
-    const fallbackTypes = ["شقة سكنية", "فيلا مستقلة", "دوبلكس", "تاون هاوس", "توين هاوس", "بنتهاوس", "استوديو", "شاليه"];
-
-    setLocations(fallbackLocations);
-    setTypes(fallbackTypes);
-
     fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
-        console.log("API Response:", data);
         const locs = data.locations || data.data?.locations;
         if (locs && locs.length > 0) setLocations(locs);
 
@@ -135,7 +141,7 @@ function App() {
         if (typesList && typesList.length > 0) setTypes(typesList);
       })
       .catch((err) => {
-        console.log("Using fallback data due to error:", err);
+        console.log("Using static fallback data due to mobile network block:", err);
       });
   }, []);
 
@@ -196,12 +202,6 @@ function App() {
           <p>{t.subtitle}</p>
         </div>
 
-        {/* شريط التشخيص الأصفر لمعرفة حالة الداتا */}
-        <div style={{ background: '#fff3cd', color: '#856404', padding: '8px', fontSize: '11px', wordBreak: 'break-all', direction: 'ltr', textAlign: 'left', marginBottom: '15px', borderRadius: '6px' }}>
-          <b>API Check:</b> Locs: {locations.length} | Types: {types.length} <br/>
-          <b>Sample:</b> {JSON.stringify(locations.slice(0, 2))}
-        </div>
-
         <form onSubmit={handleSubmit}>
           
           {/* نوع العقار */}
@@ -214,7 +214,7 @@ function App() {
               style={{ 
                 width: '100%', 
                 padding: '15px', 
-                fontSize: '18px', 
+                fontSize: '16px', 
                 borderRadius: '10px', 
                 background: '#ffffff', 
                 color: '#000000', 
@@ -246,7 +246,7 @@ function App() {
               style={{ 
                 width: '100%', 
                 padding: '15px', 
-                fontSize: '18px', 
+                fontSize: '16px', 
                 borderRadius: '10px', 
                 background: '#ffffff', 
                 color: '#000000', 
