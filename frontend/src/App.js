@@ -120,15 +120,15 @@ useEffect(() => {
     fetch(`${API_BASE_URL}/options`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched data:", data); // عشان نشوف إيه اللي راجع في الـ Console
-        if (data && data.locations) {
-          setLocations(data.locations);
-        }
-        // هنا حطينا حماية مزدوجة: لو جاي property_types أو types هيقبلهم الاتنين
-        const typesData = data.property_types || data.types;
-        if (data && typesData) {
-          setTypes(typesData); 
-        }
+        console.log("Raw API Data:", data); // بص في الـ Console لو حابب
+        
+        // استخراج المدن بأي شكل ممكن (سواء مصفوفة مباشرة أو جوه مفتاح)
+        const locs = data.locations || data.data?.locations || [];
+        setLocations(Array.isArray(locs) ? locs : []);
+
+        // استخراج أنواع العقارات بأي مفتاح محتمل
+        const typesList = data.property_types || data.types || data.data?.property_types || [];
+        setTypes(Array.isArray(typesList) ? typesList : []);
       })
       .catch((err) => console.error("Error fetching options:", err));
   }, []);
