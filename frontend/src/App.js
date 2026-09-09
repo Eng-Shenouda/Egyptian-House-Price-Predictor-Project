@@ -117,19 +117,25 @@ function App() {
   const t = content[lang];
 
   useEffect(() => {
+    // داتا احتياطية أساسية تظهر فوري لو السيرفر اتاخر على الموبايل
+    const fallbackLocations = ["القاهرة", "الجيزة", "الإسكندرية", "6 أكتوبر", "الشيخ زايد", "التجمع الخامس", "القاهرة الجديدة", "الساحل الشمالي", "مدينة نصر", "المعادي"];
+    const fallbackTypes = ["شقة سكنية", "فيلا مستقلة", "دوبلكس", "تاون هاوس", "توين هاوس", "بنتهاوس", "استوديو", "شاليه"];
+
+    setLocations(fallbackLocations);
+    setTypes(fallbackTypes);
+
+    // محاولة جلب الداتا الحية من السيرفر في الخلفية
     fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
-        console.log("API Success Data:", data);
-        const locs = data.locations || data.data?.locations || [];
-        setLocations(locs);
+        const locs = data.locations || data.data?.locations;
+        if (locs && locs.length > 0) setLocations(locs);
 
-        const typesList = data.property_types || data.types || data.data?.property_types || [];
-        setTypes(typesList);
+        const typesList = data.property_types || data.types || data.data?.property_types;
+        if (typesList && typesList.length > 0) setTypes(typesList);
       })
       .catch((err) => {
-        console.error("API Fetch Error:", err);
-        alert("Fetch Error: " + err.message);
+        console.log("Using fallback data due to network error:", err);
       });
   }, []);
 
