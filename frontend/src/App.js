@@ -179,7 +179,7 @@ useEffect(() => {
         label: typeof translateText === 'function' ? translateText(loc, lang) : loc 
       })) 
     : [];
-
+// eslint-disable-next-line no-unused-vars
   // تحويل آمن لأنواع العقارات مع دعم الترجمة
   const typeOptions = Array.isArray(types) 
     ? types.map((typ) => ({ 
