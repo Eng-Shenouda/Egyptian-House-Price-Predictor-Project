@@ -117,7 +117,7 @@ function App() {
   const t = content[lang];
 
   useEffect(() => {
-    // داتا احتياطية فورية للموبايل لضمان عدم بقاء القوائم فارغة أبداً
+    // داتا احتياطية فورية تظهر لو السيرفر اتاخر
     const fallbackLocations = ["القاهرة", "الجيزة", "الإسكندرية", "6 أكتوبر", "الشيخ زايد", "القاهرة الجديدة", "الساحل الشمالي", "مدينة نصر", "المعادي"];
     const fallbackTypes = ["شقة سكنية", "فيلا مستقلة", "دوبلكس", "تاون هاوس", "توين هاوس", "بنتهاوس", "استوديو", "شاليه"];
 
@@ -127,6 +127,7 @@ function App() {
     fetch('https://egyptian-house-price-predictor-project-production.up.railway.app/options')
       .then((res) => res.json())
       .then((data) => {
+        console.log("API Response:", data);
         const locs = data.locations || data.data?.locations;
         if (locs && locs.length > 0) setLocations(locs);
 
@@ -134,7 +135,7 @@ function App() {
         if (typesList && typesList.length > 0) setTypes(typesList);
       })
       .catch((err) => {
-        console.log("Using fallback data:", err);
+        console.log("Using fallback data due to error:", err);
       });
   }, []);
 
@@ -193,6 +194,12 @@ function App() {
             <span>{t.title}</span>
           </h1>
           <p>{t.subtitle}</p>
+        </div>
+
+        {/* شريط التشخيص الأصفر لمعرفة حالة الداتا */}
+        <div style={{ background: '#fff3cd', color: '#856404', padding: '8px', fontSize: '11px', wordBreak: 'break-all', direction: 'ltr', textAlign: 'left', marginBottom: '15px', borderRadius: '6px' }}>
+          <b>API Check:</b> Locs: {locations.length} | Types: {types.length} <br/>
+          <b>Sample:</b> {JSON.stringify(locations.slice(0, 2))}
         </div>
 
         <form onSubmit={handleSubmit}>
