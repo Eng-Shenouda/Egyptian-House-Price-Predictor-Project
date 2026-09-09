@@ -120,18 +120,17 @@ useEffect(() => {
     fetch(`${API_BASE_URL}/options`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched data:", data); // <--- زود السطر ده
+        console.log("Fetched data:", data); // عشان نشوف إيه اللي راجع في الـ Console
         if (data && data.locations) {
           setLocations(data.locations);
         }
-        if (data && data.property_types) {
-          setTypes(data.property_types); 
+        // هنا حطينا حماية مزدوجة: لو جاي property_types أو types هيقبلهم الاتنين
+        const typesData = data.property_types || data.types;
+        if (data && typesData) {
+          setTypes(typesData); 
         }
       })
-      .catch((err) => {
-        console.error("Error fetching options:", err);
-        alert("API Error: " + err.message); // <--- عشان يجيبها لك رسالة واضحة على الموبايل لو فيه مشكلة اتصال
-      });
+      .catch((err) => console.error("Error fetching options:", err));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -275,6 +274,11 @@ useEffect(() => {
           </button>
         </form>
 
+        {/* سطر التتبع لمعرفة حالة جلب البيانات على الموبايل */}
+        <div style={{ color: 'red', fontSize: '13px', marginTop: '15px', textAlign: 'center', background: '#ffeeee', padding: '5px', borderRadius: '5px' }}>
+          Debug: Locations = {locations.length} | Types = {types.length}
+        </div>
+
         {result !== null && (
           <div className="price-box">
             <div className="price-main">
@@ -297,4 +301,3 @@ useEffect(() => {
 }
 
 export default App;
-// updated railway url
