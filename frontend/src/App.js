@@ -1,4 +1,3 @@
-<BrowserRouter basename="/Egyptian-House-Price-Predictor-Project"></BrowserRouter>
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import './App.css';
@@ -190,10 +189,7 @@ function App() {
 
       <div className="glass-card">
         <div className="header">
-          {/* اسم الشركة المتحرك حسب اللغة */}
           <div className="company-badge">{t.companyName}</div>
-
-          {/* العنوان مع الأيقونة */}
           <h1>
             <span className="title-icon">📊</span> 
             <span>{t.title}</span>
@@ -227,7 +223,6 @@ function App() {
           </div>
 
           <div className="grid-3">
-            {/* المساحة */}
             <div className="input-group">
               <label>📐 {t.sizeLabel}</label>
               <div className="stepper-input">
@@ -242,7 +237,6 @@ function App() {
               </div>
             </div>
 
-            {/* الغرف */}
             <div className="input-group">
               <label>🛏️ {t.bedsLabel}</label>
               <div className="stepper-input">
@@ -257,7 +251,6 @@ function App() {
               </div>
             </div>
 
-            {/* الحمامات */}
             <div className="input-group">
               <label>🛁 {t.bathsLabel}</label>
               <div className="stepper-input">
@@ -300,4 +293,3 @@ function App() {
 }
 
 export default App;
-</BrowserRouter>
