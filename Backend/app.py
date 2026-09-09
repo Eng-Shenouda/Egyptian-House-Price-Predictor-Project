@@ -18,7 +18,8 @@ def get_options():
     return jsonify({
         'status': 'success',
         'locations': locations,
-        'types': types
+        'types': types,
+        'property_types': types  # ضفنا دي عشان تتطابق مع أي كود في الفرونت إند
     })
 
 @app.route('/predict', methods=['POST'])
