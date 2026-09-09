@@ -117,7 +117,7 @@ function App() {
 
   const t = content[lang];
 
- useEffect(() => {
+useEffect(() => {
     fetch(`${API_BASE_URL}/options`)
       .then((res) => res.json())
       .then((data) => {
@@ -125,8 +125,7 @@ function App() {
           setLocations(data.locations);
         }
         if (data && data.property_types) {
-          // لو اسم الحالة عندك مختلف، غير السطر ده بالاسم الصح المكتوب عندك فوق في الـ useState
-          setPropertyTypes(data.property_types); 
+          setTypes(data.property_types); 
         }
       })
       .catch((err) => console.error("Error fetching options:", err));
