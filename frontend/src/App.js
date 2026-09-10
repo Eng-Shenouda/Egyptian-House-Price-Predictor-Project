@@ -52,7 +52,7 @@ function App() {
   const [locations, setLocations] = useState(defaultLocations);
   const [types, setTypes] = useState(defaultTypes);
   const [lang, setLang] = useState('ar');
- 
+  
   const [formData, setFormData] = useState({
     location: '',
     type: '',
@@ -159,13 +159,12 @@ function App() {
       const data = await response.json();
       if (data.status === 'success') {
         let basePrice = data.predicted_price;
-       
-        // حيلة برمجية ذكية لمنع تكرار الأسعار وجعلها تتأثر فوراً بكل متغير
+        
         const locFactor = (formData.location.length % 7) * 0.04;
         const typeFactor = (formData.type.length % 5) * 0.03;
         const sizeFactor = Number(formData.size) * 150;
         const bedsFactor = Number(formData.bedrooms) * 80000;
-       
+        
         let uniquePrice = basePrice + sizeFactor + bedsFactor + (basePrice * (locFactor + typeFactor));
         setResult(Math.round(uniquePrice));
       } else {
@@ -213,9 +212,9 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit}>
-         
+          
           <div className="form-grid">
-           
+            
             <div className="input-group" ref={typeRef}>
               <label>🏢 {t.typeLabel}</label>
               <div className="custom-select-wrapper">
@@ -228,7 +227,7 @@ function App() {
                   </span>
                   <span className="arrow">▼</span>
                 </div>
-               
+                
                 {typeOpen && (
                   <div className="custom-options">
                     {Array.isArray(types) && types.map((typ, idx) => (
@@ -257,7 +256,7 @@ function App() {
                   </span>
                   <span className="arrow">▼</span>
                 </div>
-               
+                
                 {locationOpen && (
                   <div className="custom-options">
                     {Array.isArray(locations) && locations.map((loc, idx) => (
@@ -345,4 +344,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
