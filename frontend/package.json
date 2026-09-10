@@ -1,6 +1,5 @@
 {
-"homepage": "https://Eng-Shenouda.github.io/Egyptian-House-Price-Predictor-Project",  
-"name": "frontend",
+"homepage": "https://eng-shenouda.github.io/Egyptian-House-Price-Predictor-Project""name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
