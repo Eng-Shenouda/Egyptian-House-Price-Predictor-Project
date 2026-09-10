@@ -27,7 +27,7 @@ def get_options():
 def predict():
     try:
         data = request.get_json(force=True) or {}
-        
+       
         loc = data.get('location') or locations[0]
         prop_type = data.get('type') or types[0]
         bedrooms = int(data.get('bedrooms', 3))
@@ -45,7 +45,7 @@ def predict():
         }])
 
         predicted = model.predict(input_data)[0]
-        
+       
         # حماية في حالة إخراج قيم غير منطقية
         if predicted <= 0:
             predicted = (size * 20000) + (bedrooms * 300000) + (bathrooms * 150000)

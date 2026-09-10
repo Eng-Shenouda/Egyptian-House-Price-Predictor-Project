@@ -39,20 +39,20 @@ const formatNumber = (num, currentLang) => {
 
 function App() {
   const defaultLocations = [
-    "New Cairo", "Sheikh Zayed", "6th of October", "Nasr City", "Maadi", 
-    "Heliopolis", "Alexandria", "North Coast", "Shorouk", "Madinaty", 
+    "New Cairo", "Sheikh Zayed", "6th of October", "Nasr City", "Maadi",
+    "Heliopolis", "Alexandria", "North Coast", "Shorouk", "Madinaty",
     "Rehab", "Zamalek", "Dokki", "Mohandessin", "10th of Ramadan"
   ];
 
   const defaultTypes = [
-    "Apartment", "Villa", "Duplex", "Townhouse", "Twin House", 
+    "Apartment", "Villa", "Duplex", "Townhouse", "Twin House",
     "Penthouse", "Studio", "Chalet", "Clinic", "Administrative Office"
   ];
 
   const [locations, setLocations] = useState(defaultLocations);
   const [types, setTypes] = useState(defaultTypes);
   const [lang, setLang] = useState('ar');
-  
+ 
   const [formData, setFormData] = useState({
     location: '',
     type: '',
@@ -159,13 +159,13 @@ function App() {
       const data = await response.json();
       if (data.status === 'success') {
         let basePrice = data.predicted_price;
-        
+       
         // حيلة برمجية ذكية لمنع تكرار الأسعار وجعلها تتأثر فوراً بكل متغير
         const locFactor = (formData.location.length % 7) * 0.04;
         const typeFactor = (formData.type.length % 5) * 0.03;
         const sizeFactor = Number(formData.size) * 150;
         const bedsFactor = Number(formData.bedrooms) * 80000;
-        
+       
         let uniquePrice = basePrice + sizeFactor + bedsFactor + (basePrice * (locFactor + typeFactor));
         setResult(Math.round(uniquePrice));
       } else {
@@ -213,13 +213,13 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          
+         
           <div className="form-grid">
-            
+           
             <div className="input-group" ref={typeRef}>
               <label>🏢 {t.typeLabel}</label>
               <div className="custom-select-wrapper">
-                <div 
+                <div
                   className={`custom-select-trigger ${typeOpen ? 'open' : ''}`}
                   onClick={() => { setTypeOpen(!typeOpen); setLocationOpen(false); }}
                 >
@@ -228,12 +228,12 @@ function App() {
                   </span>
                   <span className="arrow">▼</span>
                 </div>
-                
+               
                 {typeOpen && (
                   <div className="custom-options">
                     {Array.isArray(types) && types.map((typ, idx) => (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         className={`custom-option ${formData.type === typ ? 'selected' : ''}`}
                         onClick={() => { handleSelection('type', typ); setTypeOpen(false); }}
                       >
@@ -248,7 +248,7 @@ function App() {
             <div className="input-group" ref={locationRef}>
               <label>📍 {t.locationLabel}</label>
               <div className="custom-select-wrapper">
-                <div 
+                <div
                   className={`custom-select-trigger ${locationOpen ? 'open' : ''}`}
                   onClick={() => { setLocationOpen(!locationOpen); setTypeOpen(false); }}
                 >
@@ -257,12 +257,12 @@ function App() {
                   </span>
                   <span className="arrow">▼</span>
                 </div>
-                
+               
                 {locationOpen && (
                   <div className="custom-options">
                     {Array.isArray(locations) && locations.map((loc, idx) => (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         className={`custom-option ${formData.location === loc ? 'selected' : ''}`}
                         onClick={() => { handleSelection('location', loc); setLocationOpen(false); }}
                       >
@@ -345,4 +345,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
