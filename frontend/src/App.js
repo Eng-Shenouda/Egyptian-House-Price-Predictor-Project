@@ -60,8 +60,7 @@ const dictionary = {
   "land": "قطعة أرض"
 };
 
-const API_BASE_URL = "http://127.0.0.1:5000";
-
+const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
 // دالة ذكية تدمج الاسم الأصلي مع الترجمة بالعربي حسب لغة الموقع
 const formatDualLabel = (text, targetLang) => {
   if (!text) return text;
