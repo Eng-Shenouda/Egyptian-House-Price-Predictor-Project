@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Egyptian-House-Price-Predictor-Project/static/css/main.aa7ad5fa.css",
+    "main.js": "/Egyptian-House-Price-Predictor-Project/static/js/main.06d35115.js",
+    "static/js/453.3852239a.chunk.js": "/Egyptian-House-Price-Predictor-Project/static/js/453.3852239a.chunk.js",
+    "index.html": "/Egyptian-House-Price-Predictor-Project/index.html",
+    "main.aa7ad5fa.css.map": "/Egyptian-House-Price-Predictor-Project/static/css/main.aa7ad5fa.css.map",
+    "main.06d35115.js.map": "/Egyptian-House-Price-Predictor-Project/static/js/main.06d35115.js.map",
+    "453.3852239a.chunk.js.map": "/Egyptian-House-Price-Predictor-Project/static/js/453.3852239a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aa7ad5fa.css",
+    "static/js/main.06d35115.js"
+  ]
+}
