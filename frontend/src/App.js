@@ -2,28 +2,88 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 const dictionary = {
-  "asyut": "أسيوط", "assiut": "أسيوط",
-  "6th of october": "6 أكتوبر", "october": "6 أكتوبر",
-  "new cairo": "القاهرة الجديدة", "sheikh zayed": "الشيخ زايد", "zayed": "الشيخ زايد",
-  "nasr city": "مدينة نصر", "maadi": "المعادي", "heliopolis": "مصر الجديدة",
-  "alexandria": "الإسكندرية", "north coast": "الساحل الشمالي", "shorouk": "الشروق",
-  "madinaty": "مدينتي", "rehab": "الرحاب", "badr city": "مدينة بدر", "obour": "العبور",
-  "administrative capital": "العاصمة الإدارية", "giza": "الجيزة", "hurghada": "الغردقة",
-  "ain sokhna": "العين السخنة", "zamalek": "الزمالك", "dokki": "الدقي",
-  "mohandessin": "المهندسين", "mansoura": "المنصورة", "tanta": "طنطا",
-  "apartment": "شقة سكنية", "villa": "فيلا مستقلة", "duplex": "دوبلكس",
-  "townhouse": "تاون هاوس", "twin house": "توين هاوس", "penthouse": "بنتهاوس",
-  "studio": "ستوديو", "chalet": "شاليه", "clinic": "عيادة",
-  "office": "مكتب إداري", "store": "محل تجاري", "10th of ramadan": "العاشر من رمضان",
-  "administrative office": "مكتب إداري"
+  // --- مناطق مصر ---
+  "new cairo": "القاهرة الجديدة",
+  "sheikh zayed": "الشيخ زايد",
+  "zayed": "الشيخ زايد",
+  "6th of october": "6 أكتوبر",
+  "october": "6 أكتوبر",
+  "nasr city": "مدينة نصر",
+  "maadi": "المعادي",
+  "heliopolis": "مصر الجديدة",
+  "alexandria": "الإسكندرية",
+  "north coast": "الساحل الشمالي",
+  "shorouk": "الشروق",
+  "madinaty": "مدينتي",
+  "rehab": "الرحاب",
+  "badr city": "مدينة بدر",
+  "obour": "العبور",
+  "administrative capital": "العاصمة الإدارية",
+  "new capital": "العاصمة الإدارية الجديدة",
+  "giza": "الجيزة",
+  "hurghada": "الغردقة",
+  "ain sokhna": "العين السخنة",
+  "zamalek": "الزمالك",
+  "dokki": "الدقي",
+  "mohandessin": "المهندسين",
+  "mansoura": "المنصورة",
+  "tanta": "طنطا",
+  "asyut": "أسيوط",
+  "assiut": "أسيوط",
+  "10th of ramadan": "العاشر من رمضان",
+  "ismailia": "الإسماعيلية",
+  "suez": "السويس",
+  "port said": "بورسعيد",
+  "fayoum": "الفيوم",
+  "minya": "المنيا",
+  "el gouna": "الجونة",
+  "smouha": "سموحة",
+  "miami": "ميامي",
+  "montaza": "المنتزه",
+  "louran": "لوران",
+  "gleem": "جليم",
+
+  // --- أنواع العقارات ---
+  "apartment": "شقة سكنية",
+  "villa": "فيلا مستقلة",
+  "duplex": "دوبلكس",
+  "townhouse": "تاون هاوس",
+  "twin house": "توين هاوس",
+  "penthouse": "بنتهاوس",
+  "studio": "ستوديو",
+  "chalet": "شاليه",
+  "clinic": "عيادة",
+  "office": "مكتب إداري",
+  "administrative office": "مكتب إداري",
+  "store": "محل تجاري",
+  "building": "مبنى بالكامل",
+  "land": "قطعة أرض"
 };
 
-const API_BASE_URL = "https://egyptian-house-price-predictor-project-production.up.railway.app";
+const API_BASE_URL = "http://127.0.0.1:5000";
 
-const translateText = (text, targetLang) => {
+// دالة ذكية تدمج الاسم الأصلي مع الترجمة بالعربي حسب لغة الموقع
+const formatDualLabel = (text, targetLang) => {
   if (!text) return text;
-  if (targetLang === 'en') return text;
-  return dictionary[text.toString().trim().toLowerCase()] || text;
+  const key = text.toString().trim().toLowerCase();
+  const translated = dictionary[key];
+  
+  if (!translated) {
+    return text; // لو مش موجود في القاموس يعرضه زي ما هو
+  }
+
+  if (targetLang === 'ar') {
+    return `${translated} (${text})`;
+  } else {
+    return `${text} (${translated})`;
+  }
+};
+
+const parseArabicNumber = (str) => {
+  if (!str) return '';
+  const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  const englishStr = str.toString().replace(/[٠-٩]/g, (d) => arabicDigits.indexOf(d));
+  return englishStr.replace(/[^0-9]/g, '');
 };
 
 const formatNumber = (num, currentLang) => {
@@ -41,7 +101,7 @@ function App() {
   const defaultLocations = [
     "New Cairo", "Sheikh Zayed", "6th of October", "Nasr City", "Maadi",
     "Heliopolis", "Alexandria", "North Coast", "Shorouk", "Madinaty",
-    "Rehab", "Zamalek", "Dokki", "Mohandessin", "10th of Ramadan"
+    "Rehab", "Zamalek", "Dokki", "Mohandessin", "10th of Ramadan", "Ismailia"
   ];
 
   const defaultTypes = [
@@ -145,32 +205,33 @@ function App() {
 
     setLoading(true);
     try {
+      const cleanSize = Number(parseArabicNumber(formData.size)) || 150;
+      const cleanBeds = Number(parseArabicNumber(formData.bedrooms)) || 3;
+      const cleanBaths = Number(parseArabicNumber(formData.bathrooms)) || 2;
+
+      const payload = {
+        location: formData.location,
+        type: formData.type,
+        bedrooms: cleanBeds,
+        bathrooms: cleanBaths,
+        size: cleanSize
+      };
+
       const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          location: formData.location,
-          type: formData.type,
-          bedrooms: Number(formData.bedrooms),
-          bathrooms: Number(formData.bathrooms),
-          size: Number(formData.size)
-        })
+        body: JSON.stringify(payload)
       });
+      
       const data = await response.json();
-      if (data.status === 'success') {
-        let basePrice = data.predicted_price;
-        
-        const locFactor = (formData.location.length % 7) * 0.04;
-        const typeFactor = (formData.type.length % 5) * 0.03;
-        const sizeFactor = Number(formData.size) * 150;
-        const bedsFactor = Number(formData.bedrooms) * 80000;
-        
-        let uniquePrice = basePrice + sizeFactor + bedsFactor + (basePrice * (locFactor + typeFactor));
-        setResult(Math.round(uniquePrice));
+      
+      if (response.ok && data.predicted_price) {
+        setResult(Math.round(data.predicted_price));
       } else {
-        alert('تعذر جلب التوقع، تأكد من البيانات المدخلة.');
+        alert(data.message || data.error || 'تعذر جلب التوقع، تأكد من البيانات المدخلة.');
       }
     } catch (err) {
+      console.error(err);
       alert('خطأ في الاتصال بالخادم.');
     } finally {
       setLoading(false);
@@ -179,15 +240,15 @@ function App() {
 
   const handleStep = (field, delta) => {
     setFormData((prev) => {
-      const val = Number(prev[field]) || 0;
-      return { ...prev, [field]: Math.max(1, val + delta) };
+      const cleanNum = Number(parseArabicNumber(prev[field])) || 0;
+      const newVal = Math.max(1, cleanNum + delta);
+      return { ...prev, [field]: formatNumber(newVal, lang) };
     });
     setResult(null);
   };
 
   const handleInputChange = (field, rawValue) => {
-    const cleanVal = rawValue.replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g, '');
-    setFormData((prev) => ({ ...prev, [field]: cleanVal }));
+    setFormData((prev) => ({ ...prev, [field]: rawValue }));
     setResult(null);
   };
 
@@ -196,7 +257,8 @@ function App() {
     setResult(null);
   };
 
-  const meterPrice = result ? Math.round(result / (Number(formData.size) || 1)) : 0;
+  const numericSize = Number(parseArabicNumber(formData.size)) || 1;
+  const meterPrice = result ? Math.round(result / numericSize) : 0;
 
   return (
     <div className="app-container" dir={t.dir}>
@@ -212,9 +274,9 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          
           <div className="form-grid">
             
+            {/* نوع العقار */}
             <div className="input-group" ref={typeRef}>
               <label>🏢 {t.typeLabel}</label>
               <div className="custom-select-wrapper">
@@ -223,7 +285,7 @@ function App() {
                   onClick={() => { setTypeOpen(!typeOpen); setLocationOpen(false); }}
                 >
                   <span>
-                    {formData.type ? translateText(formData.type, lang) : (lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...')}
+                    {formData.type ? formatDualLabel(formData.type, lang) : (lang === 'ar' ? 'اختر نوع العقار...' : 'Select property type...')}
                   </span>
                   <span className="arrow">▼</span>
                 </div>
@@ -236,7 +298,7 @@ function App() {
                         className={`custom-option ${formData.type === typ ? 'selected' : ''}`}
                         onClick={() => { handleSelection('type', typ); setTypeOpen(false); }}
                       >
-                        {translateText(typ, lang)}
+                        {formatDualLabel(typ, lang)}
                       </div>
                     ))}
                   </div>
@@ -244,6 +306,7 @@ function App() {
               </div>
             </div>
 
+            {/* المدينة / المنطقة */}
             <div className="input-group" ref={locationRef}>
               <label>📍 {t.locationLabel}</label>
               <div className="custom-select-wrapper">
@@ -252,7 +315,7 @@ function App() {
                   onClick={() => { setLocationOpen(!locationOpen); setTypeOpen(false); }}
                 >
                   <span>
-                    {formData.location ? translateText(formData.location, lang) : (lang === 'ar' ? 'اختر المنطقة...' : 'Select location...')}
+                    {formData.location ? formatDualLabel(formData.location, lang) : (lang === 'ar' ? 'اختر المنطقة...' : 'Select location...')}
                   </span>
                   <span className="arrow">▼</span>
                 </div>
@@ -265,7 +328,7 @@ function App() {
                         className={`custom-option ${formData.location === loc ? 'selected' : ''}`}
                         onClick={() => { handleSelection('location', loc); setLocationOpen(false); }}
                       >
-                        {translateText(loc, lang)}
+                        {formatDualLabel(loc, lang)}
                       </div>
                     ))}
                   </div>
@@ -273,13 +336,14 @@ function App() {
               </div>
             </div>
 
+            {/* المساحة */}
             <div className="input-group">
               <label>📐 {t.sizeLabel}</label>
               <div className="stepper-input">
                 <button type="button" onClick={() => handleStep('size', -5)}>−</button>
                 <input
                   type="text"
-                  value={formatNumber(formData.size, lang)}
+                  value={formData.size}
                   onChange={(e) => handleInputChange('size', e.target.value)}
                   required
                 />
@@ -287,13 +351,14 @@ function App() {
               </div>
             </div>
 
+            {/* الغرف */}
             <div className="input-group">
               <label>🛏️ {t.bedsLabel}</label>
               <div className="stepper-input">
                 <button type="button" onClick={() => handleStep('bedrooms', -1)}>−</button>
                 <input
                   type="text"
-                  value={formatNumber(formData.bedrooms, lang)}
+                  value={formData.bedrooms}
                   onChange={(e) => handleInputChange('bedrooms', e.target.value)}
                   required
                 />
@@ -301,13 +366,14 @@ function App() {
               </div>
             </div>
 
+            {/* الحمامات */}
             <div className="input-group">
               <label>🛁 {t.bathsLabel}</label>
               <div className="stepper-input">
                 <button type="button" onClick={() => handleStep('bathrooms', -1)}>−</button>
                 <input
                   type="text"
-                  value={formatNumber(formData.bathrooms, lang)}
+                  value={formData.bathrooms}
                   onChange={(e) => handleInputChange('bathrooms', e.target.value)}
                   required
                 />
